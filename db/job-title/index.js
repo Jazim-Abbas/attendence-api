@@ -40,6 +40,7 @@ async function updateJobTitle(id, { name, allowedLeaves }) {
             UPDATE job_title 
                 SET name = COALESCE($1, name), allowed_leaves = COALESCE($2, allowed_leaves)
             WHERE id = $3
+            RETURNING *
         `,
         [name, allowedLeaves, id]
       );
@@ -51,9 +52,25 @@ async function updateJobTitle(id, { name, allowedLeaves }) {
   }
 }
 
+async function deleteJobTitle(id) {
+  try {
+    return await queryRun(async (client) => {
+      const deletedRecord = await client.query(
+        "DELETE FROM job_title WHERE id = $1 RETURNING *",
+        [id]
+      );
+
+      return deletedRecord.rowCount;
+    });
+  } catch (err) {
+    console.log("error: ", err);
+  }
+}
+
 module.exports = {
   createJobTile,
   allJobTitles,
   singleJobTitle,
   updateJobTitle,
+  deleteJobTitle,
 };

@@ -10,6 +10,7 @@ async function queryRun(callback) {
     throw err;
   } finally {
     client.release();
+    console.log("release the pool");
   }
 }
 
