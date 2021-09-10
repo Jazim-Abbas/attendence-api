@@ -1,7 +1,12 @@
 const departmentDb = require("../db/department");
 
 async function main() {
-  await create();
+  await index();
+}
+
+async function index() {
+  const listDepts = await departmentDb.allDepartments();
+  console.log("list all depts: ", listDepts);
 }
 
 async function create() {

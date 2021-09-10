@@ -1,5 +1,12 @@
 const queryRun = require("../run-query.util");
 
+async function allDepartments() {
+  return queryRun(async (client) => {
+    const departments = await client.query("SELECT * FROM department");
+    return departments.rows;
+  });
+}
+
 async function createDepartment({ name, phone, email, address }) {
   try {
     return await queryRun(async (client) => {
@@ -20,4 +27,4 @@ async function createDepartment({ name, phone, email, address }) {
   }
 }
 
-module.exports = { createDepartment };
+module.exports = { createDepartment, allDepartments };
