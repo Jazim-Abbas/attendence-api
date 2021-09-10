@@ -7,6 +7,16 @@ async function allLeaveCategories() {
   });
 }
 
+async function singleLeaveCategory(id) {
+  return queryRun(async (client) => {
+    const leaveCategory = await client.query(
+      "SELECT * FROM leave_category where id = $1",
+      [id]
+    );
+    return leaveCategory.rows[0];
+  });
+}
+
 async function createCategory({ name }) {
   try {
     return await queryRun(async (client) => {
@@ -22,4 +32,4 @@ async function createCategory({ name }) {
   }
 }
 
-module.exports = { createCategory, allLeaveCategories };
+module.exports = { createCategory, allLeaveCategories, singleLeaveCategory };
