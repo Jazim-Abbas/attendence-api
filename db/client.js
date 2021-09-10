@@ -1,6 +1,7 @@
 const { Pool } = require("pg");
 
 function init() {
+  console.log("creating pool");
   const pool = new Pool({
     user: "postgres",
     host: "localhost",
