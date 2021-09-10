@@ -14,8 +14,8 @@ function init() {
   };
 }
 
-const getClient = init();
+const _init = init();
 /** @type {Pool} */
-const client = getClient();
+const client = _init.getClient();
 
 module.exports = client;
