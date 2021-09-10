@@ -180,12 +180,49 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: department; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.department (
+    id smallint NOT NULL,
+    name character varying(255) NOT NULL,
+    phone character varying(13) NOT NULL,
+    email character varying(500),
+    address character varying(500)
+);
+
+
+ALTER TABLE public.department OWNER TO postgres;
+
+--
+-- Name: department_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.department_id_seq
+    AS smallint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.department_id_seq OWNER TO postgres;
+
+--
+-- Name: department_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.department_id_seq OWNED BY public.department.id;
+
+
+--
 -- Name: job_title; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.job_title (
     id smallint NOT NULL,
-    name character varying(255),
+    name character varying(255) NOT NULL,
     allowed_leaves smallint
 );
 
@@ -215,10 +252,26 @@ ALTER SEQUENCE public.job_title_id_seq OWNED BY public.job_title.id;
 
 
 --
+-- Name: department id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.department ALTER COLUMN id SET DEFAULT nextval('public.department_id_seq'::regclass);
+
+
+--
 -- Name: job_title id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.job_title ALTER COLUMN id SET DEFAULT nextval('public.job_title_id_seq'::regclass);
+
+
+--
+-- Data for Name: department; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.department (id, name, phone, email, address) FROM stdin;
+1	Software Department	03310866442	\N	\N
+\.
 
 
 --
@@ -230,10 +283,25 @@ COPY public.job_title (id, name, allowed_leaves) FROM stdin;
 
 
 --
+-- Name: department_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.department_id_seq', 1, true);
+
+
+--
 -- Name: job_title_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.job_title_id_seq', 4, true);
+SELECT pg_catalog.setval('public.job_title_id_seq', 6, true);
+
+
+--
+-- Name: department department_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.department
+    ADD CONSTRAINT department_pkey PRIMARY KEY (id);
 
 
 --
