@@ -37,4 +37,33 @@ async function createDepartment({ name, phone, email, address }) {
   }
 }
 
-module.exports = { createDepartment, allDepartments, singleDepartment };
+async function updateDepartment(id, { name, phone, email, address }) {
+  try {
+    return await queryRun(async (client) => {
+      const department = await client.query(
+        `
+            UPDATE department 
+                SET 
+                    name        = COALESCE($1, name), 
+                    phone       = COALESCE($2, phone),
+                    email       = COALESCE($3, email),
+                    address     = COALESCE($4, address)
+            WHERE id = $5
+            RETURNING *
+        `,
+        [name, phone, email, address, id]
+      );
+
+      return department.rows[0];
+    });
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = {
+  createDepartment,
+  allDepartments,
+  singleDepartment,
+  updateDepartment,
+};

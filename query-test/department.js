@@ -1,7 +1,7 @@
 const departmentDb = require("../db/department");
 
 async function main() {
-  await show();
+  await update(1);
 }
 
 async function index() {
@@ -9,8 +9,8 @@ async function index() {
   console.log("list all depts: ", listDepts);
 }
 
-async function show() {
-  const singleDept = await departmentDb.singleDepartment(1);
+async function show(id) {
+  const singleDept = await departmentDb.singleDepartment(id);
   console.log("singleDept: ", singleDept);
 }
 
@@ -20,6 +20,13 @@ async function create() {
     phone: "03310866442",
   });
   console.log("newly created dept: ", department);
+}
+
+async function update(id) {
+  const dept = await departmentDb.updateDepartment(id, {
+    email: "jazim@gmail.com"
+  });
+  console.log("updated department: ", dept);
 }
 
 main();
