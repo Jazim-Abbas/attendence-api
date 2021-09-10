@@ -52,9 +52,25 @@ async function updateCategory(id, { name }) {
   }
 }
 
+async function deleteCategory(id) {
+  try {
+    return await queryRun(async (client) => {
+      const deletedCategory = await client.query(
+        "DELETE FROM leave_category WHERE id = $1 RETURNING *",
+        [id]
+      );
+
+      return deletedCategory.rowCount;
+    });
+  } catch (err) {
+    throw err;
+  }
+}
+
 module.exports = {
   createCategory,
   allCategories,
   singleCategory,
   updateCategory,
+  deleteCategory,
 };

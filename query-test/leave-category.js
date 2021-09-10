@@ -1,7 +1,7 @@
 const leaveCategoryDb = require("../db/leave-category");
 
 async function main() {
-  await update(1);
+  await drop(1);
 }
 
 async function index() {
@@ -26,6 +26,11 @@ async function update(id) {
     name: "First Category ..",
   });
   console.log("updatedCategory", updatedCategory);
+}
+
+async function drop(id) {
+  const categoryCount = await leaveCategoryDb.deleteCategory(id);
+  console.log("delete category count: ", categoryCount);
 }
 
 main();
