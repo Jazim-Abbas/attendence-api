@@ -7,6 +7,16 @@ async function allDepartments() {
   });
 }
 
+async function singleDepartment(id) {
+  return queryRun(async (client) => {
+    const department = await client.query(
+      "SELECT * FROM department where id = $1",
+      [id]
+    );
+    return department.rows[0];
+  });
+}
+
 async function createDepartment({ name, phone, email, address }) {
   try {
     return await queryRun(async (client) => {
@@ -27,4 +37,4 @@ async function createDepartment({ name, phone, email, address }) {
   }
 }
 
-module.exports = { createDepartment, allDepartments };
+module.exports = { createDepartment, allDepartments, singleDepartment };
