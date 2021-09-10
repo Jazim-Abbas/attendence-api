@@ -1,7 +1,12 @@
 const leaveCategoryDb = require("../db/leave-category");
 
 async function main() {
-  await create();
+  await index();
+}
+
+async function index() {
+  const categories = await leaveCategoryDb.allLeaveCategories();
+  console.log("all leave categories: ", categories);
 }
 
 async function create() {

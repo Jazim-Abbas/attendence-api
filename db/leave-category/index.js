@@ -1,5 +1,12 @@
 const queryRun = require("../run-query.util");
 
+async function allLeaveCategories() {
+  return queryRun(async (client) => {
+    const leaveCategories = await client.query("SELECT * FROM leave_category");
+    return leaveCategories.rows;
+  });
+}
+
 async function createCategory({ name }) {
   try {
     return await queryRun(async (client) => {
@@ -15,4 +22,4 @@ async function createCategory({ name }) {
   }
 }
 
-module.exports = { createCategory };
+module.exports = { createCategory, allLeaveCategories };
