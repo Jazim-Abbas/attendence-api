@@ -252,6 +252,86 @@ ALTER SEQUENCE public.job_title_id_seq OWNED BY public.job_title.id;
 
 
 --
+-- Name: leave_category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.leave_category (
+    id smallint NOT NULL,
+    name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.leave_category OWNER TO postgres;
+
+--
+-- Name: leave_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.leave_category_id_seq
+    AS smallint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.leave_category_id_seq OWNER TO postgres;
+
+--
+-- Name: leave_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.leave_category_id_seq OWNED BY public.leave_category.id;
+
+
+--
+-- Name: staff; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.staff (
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    gender character varying(10) NOT NULL,
+    dob date,
+    phone character varying(13),
+    joining_date date,
+    address character(500),
+    image character(1024),
+    is_admin boolean DEFAULT false,
+    id smallint NOT NULL,
+    department smallint,
+    job_title smallint
+);
+
+
+ALTER TABLE public.staff OWNER TO postgres;
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.staff_id_seq
+    AS smallint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.staff_id_seq OWNER TO postgres;
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.staff_id_seq OWNED BY public.staff.id;
+
+
+--
 -- Name: department id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -266,11 +346,24 @@ ALTER TABLE ONLY public.job_title ALTER COLUMN id SET DEFAULT nextval('public.jo
 
 
 --
+-- Name: leave_category id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.leave_category ALTER COLUMN id SET DEFAULT nextval('public.leave_category_id_seq'::regclass);
+
+
+--
+-- Name: staff id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staff ALTER COLUMN id SET DEFAULT nextval('public.staff_id_seq'::regclass);
+
+
+--
 -- Data for Name: department; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.department (id, name, phone, email, address) FROM stdin;
-1	Software Department	03310866442	\N	\N
 \.
 
 
@@ -279,6 +372,22 @@ COPY public.department (id, name, phone, email, address) FROM stdin;
 --
 
 COPY public.job_title (id, name, allowed_leaves) FROM stdin;
+\.
+
+
+--
+-- Data for Name: leave_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.leave_category (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.staff (first_name, last_name, email, password, gender, dob, phone, joining_date, address, image, is_admin, id, department, job_title) FROM stdin;
 \.
 
 
@@ -297,6 +406,20 @@ SELECT pg_catalog.setval('public.job_title_id_seq', 6, true);
 
 
 --
+-- Name: leave_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.leave_category_id_seq', 1, true);
+
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.staff_id_seq', 1, false);
+
+
+--
 -- Name: department department_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -310,6 +433,52 @@ ALTER TABLE ONLY public.department
 
 ALTER TABLE ONLY public.job_title
     ADD CONSTRAINT job_title_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: leave_category leave_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.leave_category
+    ADD CONSTRAINT leave_category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staff staff_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fki_staff_dept; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_staff_dept ON public.staff USING btree (department);
+
+
+--
+-- Name: fki_staff_jobtitle; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_staff_jobtitle ON public.staff USING btree (job_title);
+
+
+--
+-- Name: staff staff_dept; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_dept FOREIGN KEY (department) REFERENCES public.department(id) ON UPDATE CASCADE ON DELETE RESTRICT NOT VALID;
+
+
+--
+-- Name: staff staff_jobtitle; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_jobtitle FOREIGN KEY (job_title) REFERENCES public.job_title(id) ON UPDATE CASCADE ON DELETE RESTRICT NOT VALID;
 
 
 --
