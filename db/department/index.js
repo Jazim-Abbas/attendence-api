@@ -61,9 +61,21 @@ async function updateDepartment(id, { name, phone, email, address }) {
   }
 }
 
+async function deleteDepartment(id) {
+  return await queryRun(async (client) => {
+    const deletedRecord = await client.query(
+      "DELETE FROM department WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    return deletedRecord.rowCount;
+  });
+}
+
 module.exports = {
   createDepartment,
   allDepartments,
   singleDepartment,
   updateDepartment,
+  deleteDepartment,
 };

@@ -1,7 +1,7 @@
 const departmentDb = require("../db/department");
 
 async function main() {
-  await update(1);
+  await drop(1);
 }
 
 async function index() {
@@ -24,9 +24,14 @@ async function create() {
 
 async function update(id) {
   const dept = await departmentDb.updateDepartment(id, {
-    email: "jazim@gmail.com"
+    email: "jazim@gmail.com",
   });
   console.log("updated department: ", dept);
+}
+
+async function drop(id) {
+  const deptCount = await departmentDb.deleteDepartment(id);
+  console.log("department count deleted: ", deptCount);
 }
 
 main();
