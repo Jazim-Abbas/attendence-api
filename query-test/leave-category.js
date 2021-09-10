@@ -1,16 +1,16 @@
 const leaveCategoryDb = require("../db/leave-category");
 
 async function main() {
-  await show(1);
+  await update(1);
 }
 
 async function index() {
-  const categories = await leaveCategoryDb.allLeaveCategories();
+  const categories = await leaveCategoryDb.allCategories();
   console.log("all leave categories: ", categories);
 }
 
 async function show(id) {
-  const category = await leaveCategoryDb.singleLeaveCategory(id);
+  const category = await leaveCategoryDb.singleCategory(id);
   console.log("leave category: ", category);
 }
 
@@ -19,6 +19,13 @@ async function create() {
     name: "First Category",
   });
   console.log("leave category: ", category);
+}
+
+async function update(id) {
+  const updatedCategory = await leaveCategoryDb.updateCategory(id, {
+    name: "First Category ..",
+  });
+  console.log("updatedCategory", updatedCategory);
 }
 
 main();

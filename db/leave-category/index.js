@@ -1,13 +1,13 @@
 const queryRun = require("../run-query.util");
 
-async function allLeaveCategories() {
+async function allCategories() {
   return queryRun(async (client) => {
     const leaveCategories = await client.query("SELECT * FROM leave_category");
     return leaveCategories.rows;
   });
 }
 
-async function singleLeaveCategory(id) {
+async function singleCategory(id) {
   return queryRun(async (client) => {
     const leaveCategory = await client.query(
       "SELECT * FROM leave_category where id = $1",
@@ -32,4 +32,29 @@ async function createCategory({ name }) {
   }
 }
 
-module.exports = { createCategory, allLeaveCategories, singleLeaveCategory };
+async function updateCategory(id, { name }) {
+  try {
+    return await queryRun(async (client) => {
+      const leaveCategory = await client.query(
+        `
+            UPDATE leave_category 
+                SET name = COALESCE($1, name)
+            WHERE id = $2
+            RETURNING *
+        `,
+        [name, id]
+      );
+
+      return leaveCategory.rows[0];
+    });
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = {
+  createCategory,
+  allCategories,
+  singleCategory,
+  updateCategory,
+};
