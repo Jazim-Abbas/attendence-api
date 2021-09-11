@@ -17,7 +17,13 @@ async function queryRun(callback) {
     const client = await pool.connect();
 
     try {
-      return await callback(client);
+      await client.query("BEGIN");
+      const record = await callback(client);
+      await client.query("COMMIT");
+      return record;
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
     } finally {
       client.release();
     }
