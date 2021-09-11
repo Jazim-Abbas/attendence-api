@@ -100,4 +100,15 @@ async function updateStaff(
   }
 }
 
-module.exports = { createStaff, updateStaff };
+async function deleteStaff(id) {
+  return await queryRun(async (client) => {
+    const deletedRecord = await client.query(
+      "DELETE FROM staff WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    return deletedRecord.rowCount;
+  });
+}
+
+module.exports = { createStaff, updateStaff, deleteStaff };

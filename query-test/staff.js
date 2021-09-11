@@ -1,7 +1,7 @@
 const staffDb = require("../db/staff");
 
 async function main() {
-  await update(1);
+  await drop(4);
 }
 
 async function create() {
@@ -22,6 +22,11 @@ async function update(id) {
   const staffFields = { address: "Lahore" };
   const updatedStaff = await staffDb.updateStaff(id, { ...staffFields });
   console.log("updated staff: ", updatedStaff);
+}
+
+async function drop(id) {
+  const staffDeletedCount = await staffDb.deleteStaff(id);
+  console.log("staffDeletedCount: ", staffDeletedCount);
 }
 
 main();
