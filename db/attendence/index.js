@@ -30,6 +30,27 @@ async function createAttendence({ timeIn, staff }) {
   }
 }
 
-async function updateAttendence(id, { timeOut }) {}
+async function updateAttendence({ timeOut, staff }) {
+  try {
+    return await queryRun(async (client) => {
+      const attendence = await client.query(
+        `
+            UPDATE attendence 
+                SET time_out = $1
+            WHERE 
+                date_created = current_date
+                AND 
+                staff = $2
+            RETURNING *
+        `,
+        [timeOut, staff]
+      );
 
-module.exports = { createAttendence };
+      return attendence.rows[0];
+    });
+  } catch (err) {
+    console.log("error: ", err);
+  }
+}
+
+module.exports = { createAttendence, updateAttendence };
