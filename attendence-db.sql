@@ -180,6 +180,46 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: apply_leave; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.apply_leave (
+    id smallint NOT NULL,
+    subject character varying(100) NOT NULL,
+    description character varying(255) NOT NULL,
+    "from" date NOT NULL,
+    "to" date NOT NULL,
+    leave_status character varying DEFAULT 'PENDING'::character varying NOT NULL,
+    leave_category smallint NOT NULL,
+    staff smallint NOT NULL
+);
+
+
+ALTER TABLE public.apply_leave OWNER TO postgres;
+
+--
+-- Name: apply_leave_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.apply_leave_id_seq
+    AS smallint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.apply_leave_id_seq OWNER TO postgres;
+
+--
+-- Name: apply_leave_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.apply_leave_id_seq OWNED BY public.apply_leave.id;
+
+
+--
 -- Name: department; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -332,6 +372,13 @@ ALTER SEQUENCE public.staff_id_seq OWNED BY public.staff.id;
 
 
 --
+-- Name: apply_leave id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apply_leave ALTER COLUMN id SET DEFAULT nextval('public.apply_leave_id_seq'::regclass);
+
+
+--
 -- Name: department id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -357,6 +404,14 @@ ALTER TABLE ONLY public.leave_category ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.staff ALTER COLUMN id SET DEFAULT nextval('public.staff_id_seq'::regclass);
+
+
+--
+-- Data for Name: apply_leave; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.apply_leave (id, subject, description, "from", "to", leave_status, leave_category, staff) FROM stdin;
+\.
 
 
 --
@@ -388,7 +443,15 @@ COPY public.leave_category (id, name) FROM stdin;
 --
 
 COPY public.staff (first_name, last_name, email, password, gender, dob, phone, joining_date, address, image, is_admin, id, department, job_title) FROM stdin;
+Jazim	Abbas	jazim@gmail.com	password	MALE	\N	\N	2021-03-21	Lahore                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              	\N	f	1	\N	\N
 \.
+
+
+--
+-- Name: apply_leave_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.apply_leave_id_seq', 1, false);
 
 
 --
@@ -416,7 +479,15 @@ SELECT pg_catalog.setval('public.leave_category_id_seq', 1, true);
 -- Name: staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.staff_id_seq', 1, false);
+SELECT pg_catalog.setval('public.staff_id_seq', 4, true);
+
+
+--
+-- Name: apply_leave apply_leave_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apply_leave
+    ADD CONSTRAINT apply_leave_pkey PRIMARY KEY (id);
 
 
 --
@@ -444,11 +515,33 @@ ALTER TABLE ONLY public.leave_category
 
 
 --
+-- Name: staff staff_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_email_key UNIQUE (email);
+
+
+--
 -- Name: staff staff_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.staff
     ADD CONSTRAINT staff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fk_lc_apl; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fk_lc_apl ON public.apply_leave USING btree (leave_category);
+
+
+--
+-- Name: fk_staff_apply_leave; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fk_staff_apply_leave ON public.apply_leave USING btree (staff);
 
 
 --
@@ -463,6 +556,22 @@ CREATE INDEX fki_staff_dept ON public.staff USING btree (department);
 --
 
 CREATE INDEX fki_staff_jobtitle ON public.staff USING btree (job_title);
+
+
+--
+-- Name: apply_leave apply_leave_leave_category_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apply_leave
+    ADD CONSTRAINT apply_leave_leave_category_fkey FOREIGN KEY (leave_category) REFERENCES public.leave_category(id) NOT VALID;
+
+
+--
+-- Name: apply_leave apply_leave_staff_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apply_leave
+    ADD CONSTRAINT apply_leave_staff_fkey FOREIGN KEY (staff) REFERENCES public.staff(id) NOT VALID;
 
 
 --
