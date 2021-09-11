@@ -27,4 +27,24 @@ async function createApplyLeave({
   }
 }
 
-module.exports = { createApplyLeave };
+async function updateLeaveStatus(id, { leaveStatus }) {
+  try {
+    return await queryRun(async (client) => {
+      const applyLeave = await client.query(
+        `
+            UPDATE apply_leave 
+                SET leave_status = $1
+            WHERE id = $2
+            RETURNING *
+        `,
+        [leaveStatus, id]
+      );
+
+      return applyLeave.rows[0];
+    });
+  } catch (err) {
+    console.log("error: ", err);
+  }
+}
+
+module.exports = { createApplyLeave, updateLeaveStatus };

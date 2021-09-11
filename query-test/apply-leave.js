@@ -1,7 +1,7 @@
 const applyLeaveDb = require("../db/apply-leave");
 
 async function main() {
-  create();
+  await update(1);
 }
 
 async function create() {
@@ -16,6 +16,13 @@ async function create() {
 
   const applyLeave = await applyLeaveDb.createApplyLeave({ ...fields });
   console.log("newly created applyLeave: ", applyLeave);
+}
+
+async function update(id) {
+  const updatedApplyLeave = await applyLeaveDb.updateLeaveStatus(id, {
+    leaveStatus: "ACCEPTED",
+  });
+  console.log("updated apply leave: ", updatedApplyLeave);
 }
 
 main();
