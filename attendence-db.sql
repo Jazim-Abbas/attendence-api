@@ -220,6 +220,42 @@ ALTER SEQUENCE public.apply_leave_id_seq OWNED BY public.apply_leave.id;
 
 
 --
+-- Name: attendence; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.attendence (
+    id bigint NOT NULL,
+    time_in character varying(50),
+    time_out character varying(50),
+    date_created date NOT NULL,
+    staff smallint NOT NULL
+);
+
+
+ALTER TABLE public.attendence OWNER TO postgres;
+
+--
+-- Name: attendence_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.attendence_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.attendence_id_seq OWNER TO postgres;
+
+--
+-- Name: attendence_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.attendence_id_seq OWNED BY public.attendence.id;
+
+
+--
 -- Name: department; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -379,6 +415,13 @@ ALTER TABLE ONLY public.apply_leave ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: attendence id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attendence ALTER COLUMN id SET DEFAULT nextval('public.attendence_id_seq'::regclass);
+
+
+--
 -- Name: department id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -411,6 +454,15 @@ ALTER TABLE ONLY public.staff ALTER COLUMN id SET DEFAULT nextval('public.staff_
 --
 
 COPY public.apply_leave (id, subject, description, "from", "to", leave_status, leave_category, staff) FROM stdin;
+1	Sick	Description	2021-09-11	2021-09-15	ACCEPTED	2	1
+\.
+
+
+--
+-- Data for Name: attendence; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attendence (id, time_in, time_out, date_created, staff) FROM stdin;
 \.
 
 
@@ -435,6 +487,7 @@ COPY public.job_title (id, name, allowed_leaves) FROM stdin;
 --
 
 COPY public.leave_category (id, name) FROM stdin;
+2	category
 \.
 
 
@@ -451,7 +504,14 @@ Jazim	Abbas	jazim@gmail.com	password	MALE	\N	\N	2021-03-21	Lahore               
 -- Name: apply_leave_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.apply_leave_id_seq', 1, false);
+SELECT pg_catalog.setval('public.apply_leave_id_seq', 1, true);
+
+
+--
+-- Name: attendence_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attendence_id_seq', 1, false);
 
 
 --
@@ -472,7 +532,7 @@ SELECT pg_catalog.setval('public.job_title_id_seq', 6, true);
 -- Name: leave_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.leave_category_id_seq', 1, true);
+SELECT pg_catalog.setval('public.leave_category_id_seq', 2, true);
 
 
 --
@@ -488,6 +548,14 @@ SELECT pg_catalog.setval('public.staff_id_seq', 4, true);
 
 ALTER TABLE ONLY public.apply_leave
     ADD CONSTRAINT apply_leave_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: attendence attendence_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attendence
+    ADD CONSTRAINT attendence_pkey PRIMARY KEY (id);
 
 
 --
@@ -545,6 +613,13 @@ CREATE INDEX fk_staff_apply_leave ON public.apply_leave USING btree (staff);
 
 
 --
+-- Name: fk_staff_attendence; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fk_staff_attendence ON public.attendence USING btree (staff);
+
+
+--
 -- Name: fki_staff_dept; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -572,6 +647,14 @@ ALTER TABLE ONLY public.apply_leave
 
 ALTER TABLE ONLY public.apply_leave
     ADD CONSTRAINT apply_leave_staff_fkey FOREIGN KEY (staff) REFERENCES public.staff(id) NOT VALID;
+
+
+--
+-- Name: attendence attendence_staff_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attendence
+    ADD CONSTRAINT attendence_staff_fkey FOREIGN KEY (staff) REFERENCES public.staff(id) NOT VALID;
 
 
 --
