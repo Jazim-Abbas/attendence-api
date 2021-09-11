@@ -44,4 +44,60 @@ async function createStaff({
   }
 }
 
-module.exports = { createStaff };
+async function updateStaff(
+  id,
+  {
+    firstName,
+    lastName,
+    email,
+    gender,
+    dob,
+    phoneNo,
+    joiningDate,
+    address,
+    department,
+    jobTitle,
+  }
+) {
+  try {
+    return await queryRun(async (client) => {
+      const staff = await client.query(
+        `
+            UPDATE staff 
+            SET 
+                first_name = COALESCE($1, first_name), 
+                last_name = COALESCE($2, last_name),
+                email = COALESCE($3, email),
+                gender = COALESCE($4, gender),
+                dob = COALESCE($5, dob),
+                phone = COALESCE($6, phone),
+                joining_date = COALESCE($7, joining_date),
+                address = COALESCE($8, address),
+                department = COALESCE($9, department),
+                job_title = COALESCE($10, job_title)
+            WHERE id = $11
+            RETURNING *
+        `,
+        [
+          firstName,
+          lastName,
+          email,
+          gender,
+          dob,
+          phoneNo,
+          joiningDate,
+          address,
+          department,
+          jobTitle,
+          id,
+        ]
+      );
+
+      return staff.rows[0];
+    });
+  } catch (err) {
+    console.log("error: ", err);
+  }
+}
+
+module.exports = { createStaff, updateStaff };

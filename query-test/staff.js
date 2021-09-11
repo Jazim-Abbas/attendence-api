@@ -1,10 +1,10 @@
 const staffDb = require("../db/staff");
 
 async function main() {
-  await createStaff();
+  await update(1);
 }
 
-async function createStaff() {
+async function create() {
   const staffFields = {
     firstName: "Hassan",
     lastName: "Saleem",
@@ -16,6 +16,12 @@ async function createStaff() {
 
   const newStaff = await staffDb.createStaff({ ...staffFields });
   console.log("newly created staff: ", newStaff);
+}
+
+async function update(id) {
+  const staffFields = { address: "Lahore" };
+  const updatedStaff = await staffDb.updateStaff(id, { ...staffFields });
+  console.log("updated staff: ", updatedStaff);
 }
 
 main();
