@@ -1,5 +1,6 @@
 const categoryModel = require("../../models/leave-category");
 const categoryDb = require("../../db/leave-category");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function listAllCategories() {
   return categoryDb.allCategories();
@@ -23,4 +24,16 @@ async function updateCategory(id, categFields) {
   return categoryDb.updateCategory(id, updatedCateg);
 }
 
-module.exports = { createCategory, listAllCategories, updateCategory };
+async function deleteCategory(id) {
+  const deleteCount = await categoryDb.deleteCategory(id);
+  if (deleteCount === 0) {
+    throw new Exceptions.NotFound({ message: "Leave category is not found" });
+  }
+}
+
+module.exports = {
+  createCategory,
+  listAllCategories,
+  updateCategory,
+  deleteCategory,
+};

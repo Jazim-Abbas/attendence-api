@@ -5,6 +5,7 @@ const router = express.Router();
 router
   .post("/", categoryController.create)
   .get("/", categoryController.index)
-  .patch("/:id", categoryController.update);
+  .patch("/:id", categoryController.update)
+  .delete("/:id", categoryController.drop);
 
 module.exports = router;

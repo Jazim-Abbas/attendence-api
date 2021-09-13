@@ -18,4 +18,9 @@ async function update(req, res) {
   res.send({ leaveCategory });
 }
 
-module.exports = { create, index, update };
+async function drop(req, res) {
+  await _category.deleteCategory(+req.params.id);
+  res.send({ message: "Leave category is successfully deleted" });
+}
+
+module.exports = { create, index, update, drop };
