@@ -5,6 +5,10 @@ async function allJobTitles() {
   return jobTitleDb.allJobTitles();
 }
 
+async function singleJobTitle(id) {
+  return jobTitleDb.singleJobTitle(id);
+}
+
 async function createJobTitle(jobTitleFields) {
   const _jobTitle = await jobTitle.makeOrUpdateJobTitle({ ...jobTitleFields });
   const newJobTitle = {
@@ -25,4 +29,9 @@ async function updateJobTitle(id, jobTitleFields) {
   return jobTitleDb.updateJobTitle(id, updatedJobTitle);
 }
 
-module.exports = { createJobTitle, allJobTitles, updateJobTitle };
+module.exports = {
+  createJobTitle,
+  allJobTitles,
+  updateJobTitle,
+  singleJobTitle,
+};
