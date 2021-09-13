@@ -5,4 +5,9 @@ const createAttendence = yup.object().shape({
   timeIn: yup.string().notRequired(),
 });
 
-module.exports = { createAttendence };
+const updateAttendence = yup.object().shape({
+  staff: yup.number().required(),
+  timeOut: yup.string().notRequired(),
+});
+
+module.exports = { createAttendence, updateAttendence };

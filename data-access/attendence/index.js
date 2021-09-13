@@ -13,4 +13,16 @@ async function createAttendence(attendenceFields) {
   return attendenceDb.createAttendence(newAttendence);
 }
 
-module.exports = { createAttendence };
+async function updateAttendence(attendenceFields) {
+  const attendence = await attendenceModel.updateAttendence({
+    ...attendenceFields,
+  });
+  const updatedAttendence = {
+    timeOut: attendence.getTimeout(),
+    staff: attendence.getStaffId(),
+  };
+
+  return attendenceDb.updateAttendence(updatedAttendence);
+}
+
+module.exports = { createAttendence, updateAttendence };

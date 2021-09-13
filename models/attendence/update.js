@@ -1,8 +1,8 @@
 const Exceptions = require("../../utils/custom-exceptions");
 
-function createAttendence(attendenceValidator) {
-  return async ({ timeIn, staff }) => {
-    const { error } = await attendenceValidator({ timeIn, staff });
+function updateAttendence(attendenceValidator) {
+  return async ({ timeOut, staff }) => {
+    const { error } = await attendenceValidator({ timeOut, staff });
 
     if (error) {
       throw new Exceptions.ValidationError({
@@ -11,16 +11,16 @@ function createAttendence(attendenceValidator) {
       });
     }
 
-    if (!timeIn) {
+    if (!timeOut) {
       const _date = new Date();
-      timeIn = _date.getHours() + ":" + _date.getMinutes();
+      timeOut = _date.getHours() + ":" + _date.getMinutes();
     }
 
     return {
-      getTimein: () => timeIn,
+      getTimeout: () => timeOut,
       getStaffId: () => staff,
     };
   };
 }
 
-module.exports = createAttendence;
+module.exports = updateAttendence;
