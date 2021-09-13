@@ -5,4 +5,9 @@ async function create(req, res) {
   res.send({ attendence });
 }
 
-module.exports = { create };
+async function update(req, res) {
+  const attendence = await _attendence.updateAttendence(req.body);
+  res.send({ attendence });
+}
+
+module.exports = { create, update };
