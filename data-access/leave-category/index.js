@@ -6,6 +6,10 @@ async function listAllCategories() {
   return categoryDb.allCategories();
 }
 
+async function singleLeaveCategory(id) {
+  return categoryDb.singleCategory(id);
+}
+
 async function createCategory(categFields) {
   const category = await categoryModel.createCategory({ ...categFields });
   const newCategory = {
@@ -36,4 +40,5 @@ module.exports = {
   listAllCategories,
   updateCategory,
   deleteCategory,
+  singleLeaveCategory,
 };

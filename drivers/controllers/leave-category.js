@@ -5,6 +5,11 @@ async function index(_, res) {
   res.send({ leaveCategories });
 }
 
+async function show(req, res) {
+  const leaveCategory = await _category.singleLeaveCategory(+req.params.id);
+  res.send({ leaveCategory });
+}
+
 async function create(req, res) {
   const leaveCategory = await _category.createCategory(req.body);
   res.send({ leaveCategory });
@@ -23,4 +28,4 @@ async function drop(req, res) {
   res.send({ message: "Leave category is successfully deleted" });
 }
 
-module.exports = { create, index, update, drop };
+module.exports = { create, index, update, drop, show };
