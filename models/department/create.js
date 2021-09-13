@@ -2,7 +2,7 @@ const Exceptions = require("../../utils/custom-exceptions");
 
 function createDepartment(deptValidator) {
   return async ({ name, phone, email, address }) => {
-    const { error } = deptValidator({ name, phone, email, address });
+    const { error } = await deptValidator({ name, phone, email, address });
 
     if (error) {
       throw new Exceptions.ValidationError({
