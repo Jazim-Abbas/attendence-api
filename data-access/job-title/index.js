@@ -1,4 +1,5 @@
 const jobTitle = require("../../models/job-title");
+const jobTitleDb = require("../../db/job-title");
 
 async function createJobTitle(jobTitleFields) {
   const _jobTitle = await jobTitle.makeOrUpdateJobTitle({ ...jobTitleFields });
@@ -7,7 +8,7 @@ async function createJobTitle(jobTitleFields) {
     allowed_leaves: _jobTitle.getAllowedLeaves(),
   };
 
-  return newJobTitle;
+  return jobTitleDb.createJobTile(newJobTitle);
 }
 
 module.exports = { createJobTitle };

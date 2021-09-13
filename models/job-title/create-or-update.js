@@ -1,10 +1,10 @@
 const Exceptions = require("../../utils/custom-exceptions");
 
 function createOrUpdateJobTitle(jobTitleValidator) {
-  return async ({ jobTitle, allowedNoOfLeaves }) => {
+  return async ({ jobTitle, allowedLeaves }) => {
     let { error } = await jobTitleValidator({
       jobTitle,
-      allowedNoOfLeaves,
+      allowedLeaves,
     });
 
     if (error) {
@@ -16,7 +16,7 @@ function createOrUpdateJobTitle(jobTitleValidator) {
 
     return {
       getJobTitle: () => jobTitle,
-      getAllowedLeaves: () => allowedNoOfLeaves,
+      getAllowedLeaves: () => allowedLeaves,
     };
   };
 }
