@@ -1,7 +1,9 @@
 const express = require("express");
-const applyLeaveRoutes = require("../controllers/apply-leave");
+const applyLeaveController = require("../controllers/apply-leave");
 
 const router = express.Router();
-router.post("/", applyLeaveRoutes.create);
+router
+  .post("/", applyLeaveController.create)
+  .patch("/:id/status", applyLeaveController.updateLeaveStatus);
 
 module.exports = router;

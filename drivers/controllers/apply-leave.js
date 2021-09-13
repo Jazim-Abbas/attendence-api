@@ -5,4 +5,12 @@ async function create(req, res) {
   res.send({ applyLeave });
 }
 
-module.exports = { create };
+async function updateLeaveStatus(req, res) {
+  const applyLeave = await _applyLeave.updateLeaveStatus(
+    +req.params.id,
+    req.body
+  );
+  res.send({ applyLeave });
+}
+
+module.exports = { create, updateLeaveStatus };

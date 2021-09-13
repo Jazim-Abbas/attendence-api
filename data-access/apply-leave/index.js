@@ -16,4 +16,15 @@ async function createApplyLeave(leaveFields) {
   return applyLeaveDb.createApplyLeave(newApplyLeave);
 }
 
-module.exports = { createApplyLeave };
+async function updateLeaveStatus(id, leaveFields) {
+  const applyLeave = await applyLeaveModel.updateLeaveStatus({
+    ...leaveFields,
+  });
+  const updatedLeave = {
+    leaveStatus: applyLeave.getLeaveStatus(),
+  };
+
+  return applyLeaveDb.updateLeaveStatus(id, updatedLeave);
+}
+
+module.exports = { createApplyLeave, updateLeaveStatus };
