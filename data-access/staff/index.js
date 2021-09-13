@@ -43,7 +43,7 @@ async function updateStaff(id, staffFields) {
     jobTitle: staff.getJobTitleId(),
   };
 
-  return updatedStaff;
+  return staffDb.updateStaff(id, updatedStaff);
 }
 
 module.exports = { createStaff, listAllStaff, singleStaff, updateStaff };
