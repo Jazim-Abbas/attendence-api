@@ -6,6 +6,7 @@ router
   .post("/", jobTitleController.create)
   .get("/", jobTitleController.index)
   .get("/:id", jobTitleController.show)
-  .patch("/:id", jobTitleController.update);
+  .patch("/:id", jobTitleController.update)
+  .delete("/:id", jobTitleController.drop);
 
 module.exports = router;

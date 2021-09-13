@@ -23,4 +23,9 @@ async function update(req, res) {
   res.send({ jobTitle: updatedJobTitle });
 }
 
-module.exports = { create, index, update, show };
+async function drop(req, res) {
+  await _jobTitle.deleteJobTitle(+req.params.id);
+  res.send({ message: "Job title is deleted successfully" });
+}
+
+module.exports = { create, index, update, show, drop };
