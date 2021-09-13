@@ -1,6 +1,10 @@
 const departmentModel = require("../../models/department");
 const departmentDb = require("../../db/department");
 
+async function listAllDepartments() {
+  return departmentDb.allDepartments();
+}
+
 async function createDepartment(deptFields) {
   const dept = await departmentModel.createDepartment({ ...deptFields });
   const newDept = {
@@ -13,4 +17,4 @@ async function createDepartment(deptFields) {
   return departmentDb.createDepartment(newDept);
 }
 
-module.exports = { createDepartment };
+module.exports = { createDepartment, listAllDepartments };
