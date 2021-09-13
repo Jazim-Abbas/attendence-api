@@ -23,4 +23,9 @@ async function update(req, res) {
   res.send({ department });
 }
 
-module.exports = { create, index, update, show };
+async function drop(req, res) {
+  await _department.deleteDepartment(+req.params.id);
+  res.send({ message: "Department is deleted successfully" });
+}
+
+module.exports = { create, index, update, show, drop };

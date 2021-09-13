@@ -1,5 +1,6 @@
 const departmentModel = require("../../models/department");
 const departmentDb = require("../../db/department");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function listAllDepartments() {
   return departmentDb.allDepartments();
@@ -33,9 +34,17 @@ async function updateDepartment(id, deptFields) {
   return departmentDb.updateDepartment(id, updatedDept);
 }
 
+async function deleteDepartment(id) {
+  const deleteCount = await departmentDb.deleteDepartment(id);
+  if (deleteCount === 0) {
+    throw new Exceptions.NotFound({ message: "Department is not found" });
+  }
+}
+
 module.exports = {
   createDepartment,
   listAllDepartments,
   updateDepartment,
   singleDepartment,
+  deleteDepartment,
 };
