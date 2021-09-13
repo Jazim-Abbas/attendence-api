@@ -1,9 +1,11 @@
 const express = require("express");
 require("express-async-errors");
+const cors = require("cors");
 const allRoutes = require("./drivers/routes");
 const catchUnhandleExceptions = require("./drivers/middlewares/exception-handling");
 
 const app = express();
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/", allRoutes);
 app.use(catchUnhandleExceptions);
