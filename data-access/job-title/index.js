@@ -1,6 +1,10 @@
 const jobTitle = require("../../models/job-title");
 const jobTitleDb = require("../../db/job-title");
 
+async function allJobTitles() {
+  return jobTitleDb.allJobTitles();
+}
+
 async function createJobTitle(jobTitleFields) {
   const _jobTitle = await jobTitle.makeOrUpdateJobTitle({ ...jobTitleFields });
   const newJobTitle = {
@@ -11,4 +15,4 @@ async function createJobTitle(jobTitleFields) {
   return jobTitleDb.createJobTile(newJobTitle);
 }
 
-module.exports = { createJobTitle };
+module.exports = { createJobTitle, allJobTitles };
