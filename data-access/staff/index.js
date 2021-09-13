@@ -1,6 +1,10 @@
 const staffModel = require("../../models/staff");
 const staffDb = require("../../db/staff");
 
+async function listAllStaff() {
+  return staffDb.allStaffMembers();
+}
+
 async function createStaff(staffFields) {
   const staff = await staffModel.createStaff({ ...staffFields });
   const newStaff = {
@@ -20,4 +24,4 @@ async function createStaff(staffFields) {
   return staffDb.createStaff(newStaff);
 }
 
-module.exports = { createStaff };
+module.exports = { createStaff, listAllStaff };

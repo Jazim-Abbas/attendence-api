@@ -1,5 +1,12 @@
 const queryRun = require("../run-query.util");
 
+async function allStaffMembers() {
+  return await queryRun(async (client) => {
+    const staffMembers = await client.query("SELECT * FROM staff");
+    return staffMembers.rows;
+  });
+}
+
 async function allStaffForTodayAttendence() {
   return await queryRun(async (client) => {
     const staffMembers = await client.query(
@@ -147,4 +154,5 @@ module.exports = {
   updateStaff,
   deleteStaff,
   allStaffForTodayAttendence,
+  allStaffMembers,
 };
