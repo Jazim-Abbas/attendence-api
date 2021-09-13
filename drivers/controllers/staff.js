@@ -5,9 +5,14 @@ async function index(_, res) {
   res.send({ staffMembers });
 }
 
+async function show(req, res) {
+  const staff = await _staff.singleStaff(+req.params.id);
+  res.send({ staff });
+}
+
 async function create(req, res) {
   const staff = await _staff.createStaff(req.body);
   res.send({ staff });
 }
 
-module.exports = { create, index };
+module.exports = { create, index, show };

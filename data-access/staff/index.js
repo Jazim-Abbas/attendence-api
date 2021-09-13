@@ -5,6 +5,10 @@ async function listAllStaff() {
   return staffDb.allStaffMembers();
 }
 
+async function singleStaff(id) {
+  return staffDb.singleStaff(id);
+}
+
 async function createStaff(staffFields) {
   const staff = await staffModel.createStaff({ ...staffFields });
   const newStaff = {
@@ -24,4 +28,4 @@ async function createStaff(staffFields) {
   return staffDb.createStaff(newStaff);
 }
 
-module.exports = { createStaff, listAllStaff };
+module.exports = { createStaff, listAllStaff, singleStaff };
