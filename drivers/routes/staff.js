@@ -5,6 +5,7 @@ const router = express.Router();
 router
   .post("/", staffController.create)
   .get("/", staffController.index)
-  .get("/:id", staffController.show);
+  .get("/:id", staffController.show)
+  .patch("/:id", staffController.update);
 
 module.exports = router;

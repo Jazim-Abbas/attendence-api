@@ -15,4 +15,9 @@ async function create(req, res) {
   res.send({ staff });
 }
 
-module.exports = { create, index, show };
+async function update(req, res) {
+  const staff = await _staff.updateStaff(+req.params.id, req.body);
+  res.send({ staff });
+}
+
+module.exports = { create, index, show, update };

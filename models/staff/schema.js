@@ -15,4 +15,17 @@ const staffSchema = yup.object().shape({
   jobTitle: yup.number().notRequired(),
 });
 
-module.exports = { staffSchema };
+const updateStaffSchema = yup.object().shape({
+  firstName: yup.string().notRequired(),
+  lastName: yup.string().notRequired(),
+  email: yup.string().email().notRequired(),
+  gender: yup.string().oneOf(Object.values(GENDER)).notRequired(),
+  joiningDate: yup.date().notRequired(),
+  dob: yup.date().notRequired(),
+  phone: yup.number().notRequired(),
+  address: yup.string().notRequired(),
+  department: yup.number().notRequired(),
+  jobTitle: yup.number().notRequired(),
+});
+
+module.exports = { staffSchema, updateStaffSchema };

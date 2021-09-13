@@ -28,4 +28,22 @@ async function createStaff(staffFields) {
   return staffDb.createStaff(newStaff);
 }
 
-module.exports = { createStaff, listAllStaff, singleStaff };
+async function updateStaff(id, staffFields) {
+  const staff = await staffModel.updateStaff({ ...staffFields });
+  const updatedStaff = {
+    firstName: staff.getFirstName(),
+    lastName: staff.getLastName(),
+    email: staff.getEmail(),
+    gender: staff.getGender(),
+    joinginDate: staff.getJoiningDate(),
+    dob: staff.getDateOfBirth(),
+    phone: staff.getPhoneNo(),
+    address: staff.getAddress(),
+    department: staff.getDepartmentId(),
+    jobTitle: staff.getJobTitleId(),
+  };
+
+  return updatedStaff;
+}
+
+module.exports = { createStaff, listAllStaff, singleStaff, updateStaff };
