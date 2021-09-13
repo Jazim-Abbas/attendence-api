@@ -1,8 +1,7 @@
-const express = require("express")
-const jobTitleController = require("../controllers/job-title")
+const express = require("express");
+const jobTitleController = require("../controllers/job-title");
 
-const router = express.Router()
+const router = express.Router();
+router.post("/", jobTitleController.create);
 
-
-
-module.exports = router
+module.exports = router;

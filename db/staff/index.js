@@ -1,5 +1,36 @@
 const queryRun = require("../run-query.util");
 
+async function allStaffForTodayAttendence() {
+  return await queryRun(async (client) => {
+    const staffMembers = await client.query(
+      `
+        SELECT 
+          s.id AS staff_id,
+            CONCAT
+            (
+              s.first_name, 
+              ' ', 
+              s.last_name,
+              CASE
+                WHEN al.leave_status = 'ACCEPTED' THEN ' (L)'
+                ELSE ''
+              END
+            ) AS staff_name 
+        FROM staff s
+        LEFT JOIN apply_leave al
+          ON 
+          s.id = al.staff 
+          AND (CURRENT_DATE >= al.from AND CURRENT_DATE <= al.to)
+        WHERE s.id NOT IN (
+          SELECT staff FROM attendence
+          WHERE date_created = CURRENT_DATE
+        )
+      `
+    );
+    return staffMembers.rows;
+  });
+}
+
 async function createStaff({
   firstName,
   lastName,
@@ -111,4 +142,9 @@ async function deleteStaff(id) {
   });
 }
 
-module.exports = { createStaff, updateStaff, deleteStaff };
+module.exports = {
+  createStaff,
+  updateStaff,
+  deleteStaff,
+  allStaffForTodayAttendence,
+};

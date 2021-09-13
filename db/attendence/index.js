@@ -36,7 +36,7 @@ async function updateAttendence({ timeOut, staff }) {
       const attendence = await client.query(
         `
             UPDATE attendence 
-                SET time_out = $1
+                SET time_out = $1, status = 'PRESENT'
             WHERE 
                 date_created = current_date
                 AND 

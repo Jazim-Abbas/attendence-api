@@ -1,14 +1,19 @@
 const staffDb = require("../db/staff");
 
 async function main() {
-  await drop(4);
+  await staffForTodayAttendence();
+}
+
+async function staffForTodayAttendence() {
+  const staffMembers = await staffDb.allStaffForTodayAttendence();
+  console.log("all staff members: ", staffMembers);
 }
 
 async function create() {
   const staffFields = {
-    firstName: "Hassan",
-    lastName: "Saleem",
-    email: "hassan@gmail.com",
+    firstName: "Faisal",
+    lastName: "Rehman",
+    email: "faisal@gmail.com",
     password: "password",
     gender: "MALE",
     joiningDate: new Date("2021-03-21"),
