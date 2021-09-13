@@ -5,6 +5,10 @@ async function listAllDepartments() {
   return departmentDb.allDepartments();
 }
 
+async function singleDepartment(id) {
+  return departmentDb.singleDepartment(id);
+}
+
 async function createDepartment(deptFields) {
   const dept = await departmentModel.createDepartment({ ...deptFields });
   const newDept = {
@@ -29,4 +33,9 @@ async function updateDepartment(id, deptFields) {
   return departmentDb.updateDepartment(id, updatedDept);
 }
 
-module.exports = { createDepartment, listAllDepartments, updateDepartment };
+module.exports = {
+  createDepartment,
+  listAllDepartments,
+  updateDepartment,
+  singleDepartment,
+};

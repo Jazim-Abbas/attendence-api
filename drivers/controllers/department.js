@@ -5,6 +5,11 @@ async function index(_, res) {
   res.send({ departments });
 }
 
+async function show(req, res) {
+  const department = await _department.singleDepartment(+req.params.id);
+  res.send({ department });
+}
+
 async function create(req, res) {
   const department = await _department.createDepartment(req.body);
   res.send({ department });
@@ -18,4 +23,4 @@ async function update(req, res) {
   res.send({ department });
 }
 
-module.exports = { create, index, update };
+module.exports = { create, index, update, show };
