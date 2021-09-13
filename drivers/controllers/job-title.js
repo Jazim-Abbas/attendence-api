@@ -10,4 +10,12 @@ async function create(req, res) {
   res.send({ jobTitle: newJobTitle });
 }
 
-module.exports = { create, index };
+async function update(req, res) {
+  const updatedJobTitle = await jobTitle.updateJobTitle(
+    +req.params.id,
+    req.body
+  );
+  res.send({ jobTitle: updatedJobTitle });
+}
+
+module.exports = { create, index, update };

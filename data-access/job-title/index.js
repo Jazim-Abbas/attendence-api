@@ -9,10 +9,20 @@ async function createJobTitle(jobTitleFields) {
   const _jobTitle = await jobTitle.makeOrUpdateJobTitle({ ...jobTitleFields });
   const newJobTitle = {
     name: _jobTitle.getJobTitle(),
-    allowed_leaves: _jobTitle.getAllowedLeaves(),
+    allowedLeaves: _jobTitle.getAllowedLeaves(),
   };
 
   return jobTitleDb.createJobTile(newJobTitle);
 }
 
-module.exports = { createJobTitle, allJobTitles };
+async function updateJobTitle(id, jobTitleFields) {
+  const _jobTitle = await jobTitle.makeOrUpdateJobTitle({ ...jobTitleFields });
+  const updatedJobTitle = {
+    name: _jobTitle.getJobTitle(),
+    allowedLeaves: _jobTitle.getAllowedLeaves(),
+  };
+
+  return jobTitleDb.updateJobTitle(id, updatedJobTitle);
+}
+
+module.exports = { createJobTitle, allJobTitles, updateJobTitle };
