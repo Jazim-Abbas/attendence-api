@@ -80,3 +80,33 @@
 ```
 
 ---
+
+## Leave Category
+
+### Routes Info
+
+- /leave-category: get
+- /leave-category/:id: get
+- /leave-category: post
+- /leave-category/:id: patch
+- /leave-category/:id: delete
+
+### Req Body Info
+
+- **/leave-category** (post):
+
+```js
+{
+  name*: string;
+}
+```
+
+- **/leave-category/:id** (patch):
+
+```js
+{
+  name: string;
+}
+```
+
+---
