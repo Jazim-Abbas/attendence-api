@@ -7,17 +7,18 @@ async function createApplyLeave({
   to,
   leaveCategory,
   staff,
+  leaveStatus,
 }) {
   try {
     return await queryRun(async (client) => {
       const applyLeave = await client.query(
         `
             INSERT INTO 
-            apply_leave (subject, description, "from", "to", leave_category, staff) 
-            VALUES($1, $2, $3, $4, $5, $6) 
+            apply_leave (subject, description, "from", "to", leave_category, staff, leave_status) 
+            VALUES($1, $2, $3, $4, $5, $6, $7) 
             RETURNING *
         `,
-        [subject, description, from, to, leaveCategory, staff]
+        [subject, description, from, to, leaveCategory, staff, leaveStatus]
       );
 
       return applyLeave.rows[0];

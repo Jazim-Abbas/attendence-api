@@ -1,4 +1,5 @@
 const applyLeaveModel = require("../../models/apply-leave");
+const applyLeaveDb = require("../../db/apply-leave");
 
 async function createApplyLeave(leaveFields) {
   const applyLeave = await applyLeaveModel.createApplyLeave({ ...leaveFields });
@@ -7,12 +8,12 @@ async function createApplyLeave(leaveFields) {
     description: applyLeave.getDescription(),
     from: applyLeave.getFromDate(),
     to: applyLeave.getToDate(),
-    leave_status: applyLeave.getLeaveStatus(),
-    leave_category: applyLeave.getLeaveCategoryId(),
+    leaveStatus: applyLeave.getLeaveStatus(),
+    leaveCategory: applyLeave.getLeaveCategoryId(),
     staff: applyLeave.getStaffId(),
   };
 
-  return newApplyLeave;
+  return applyLeaveDb.createApplyLeave(newApplyLeave);
 }
 
 module.exports = { createApplyLeave };

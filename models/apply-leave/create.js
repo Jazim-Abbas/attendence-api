@@ -29,8 +29,8 @@ function createDepartment(applyLeaveValidator) {
     return {
       getSubject: () => subject,
       getDescription: () => description,
-      getFromDate: () => fromDate,
-      getToDate: () => toDate,
+      getFromDate: () => new Date(fromDate),
+      getToDate: () => new Date(toDate),
       getLeaveCategoryId: () => leaveCategory,
       getStaffId: () => staff,
       getLeaveStatus: () => APPLY_LEAVE_STATUS.pending,
