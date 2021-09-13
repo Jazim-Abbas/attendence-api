@@ -7,4 +7,11 @@ const departmentSchema = yup.object().shape({
   address: yup.string().notRequired(),
 });
 
-module.exports = { departmentSchema };
+const updateDeptSchema = yup.object().shape({
+  name: yup.string().notRequired(),
+  phone: yup.number().notRequired(),
+  email: yup.string().email().notRequired(),
+  address: yup.string().notRequired(),
+});
+
+module.exports = { departmentSchema, updateDeptSchema };

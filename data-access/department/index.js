@@ -17,4 +17,16 @@ async function createDepartment(deptFields) {
   return departmentDb.createDepartment(newDept);
 }
 
-module.exports = { createDepartment, listAllDepartments };
+async function updateDepartment(id, deptFields) {
+  const dept = await departmentModel.updateDepartment({ ...deptFields });
+  const updatedDept = {
+    name: dept.getName(),
+    phone: dept.getPhoneNo(),
+    email: dept.getEmail(),
+    address: dept.getAddress(),
+  };
+
+  return departmentDb.updateDepartment(id, updatedDept);
+}
+
+module.exports = { createDepartment, listAllDepartments, updateDepartment };

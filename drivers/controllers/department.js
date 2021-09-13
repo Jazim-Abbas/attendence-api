@@ -10,4 +10,12 @@ async function create(req, res) {
   res.send({ department });
 }
 
-module.exports = { create, index };
+async function update(req, res) {
+  const department = await _department.updateDepartment(
+    +req.params.id,
+    req.body
+  );
+  res.send({ department });
+}
+
+module.exports = { create, index, update };
