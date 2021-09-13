@@ -5,6 +5,10 @@ async function listAllStaff() {
   return staffDb.allStaffMembers();
 }
 
+async function listStaffForDept(deptId) {
+  return staffDb.staffMembersForDept(deptId);
+}
+
 async function singleStaff(id) {
   return staffDb.singleStaff(id);
 }
@@ -46,4 +50,10 @@ async function updateStaff(id, staffFields) {
   return staffDb.updateStaff(id, updatedStaff);
 }
 
-module.exports = { createStaff, listAllStaff, singleStaff, updateStaff };
+module.exports = {
+  createStaff,
+  listAllStaff,
+  singleStaff,
+  updateStaff,
+  listStaffForDept,
+};

@@ -5,6 +5,11 @@ async function index(_, res) {
   res.send({ staffMembers });
 }
 
+async function deptStaffMembers(req, res) {
+  const staffMembers = await _staff.listStaffForDept(+req.params.deptId);
+  res.send({ staffMembers });
+}
+
 async function show(req, res) {
   const staff = await _staff.singleStaff(+req.params.id);
   res.send({ staff });
@@ -20,4 +25,4 @@ async function update(req, res) {
   res.send({ staff });
 }
 
-module.exports = { create, index, show, update };
+module.exports = { create, index, show, update, deptStaffMembers };

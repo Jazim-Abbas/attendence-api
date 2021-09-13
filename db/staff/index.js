@@ -7,6 +7,16 @@ async function allStaffMembers() {
   });
 }
 
+async function staffMembersForDept(deptId) {
+  return await queryRun(async (client) => {
+    const staffMembers = await client.query(
+      "SELECT * FROM staff WHERE department = $1",
+      [deptId]
+    );
+    return staffMembers.rows;
+  });
+}
+
 async function singleStaff(id) {
   return await queryRun(async (client) => {
     const staffMembers = await client.query(
@@ -166,4 +176,5 @@ module.exports = {
   allStaffForTodayAttendence,
   allStaffMembers,
   singleStaff,
+  staffMembersForDept,
 };
