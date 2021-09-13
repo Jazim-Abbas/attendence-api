@@ -44,3 +44,39 @@
 ```
 
 ---
+
+## Department
+
+### Routes Info
+
+- /department: get
+- /department/:id: get
+- /department: post
+- /department/:id: patch
+- /department/:id: delete
+
+### Req Body Info
+
+- **/department** (post):
+
+```js
+{
+  name*: string;
+  phone*: number;
+  email*: string;
+  address*: string;
+}
+```
+
+- **/department/:id** (patch):
+
+```js
+{
+  name: string;
+  phone: number;
+  email: string;
+  address: string;
+}
+```
+
+---
