@@ -1,5 +1,6 @@
 const express = require("express");
 const staffController = require("../controllers/staff");
+const upload = require("../../utils/upload");
 
 const router = express.Router();
 router
@@ -7,6 +8,7 @@ router
   .get("/", staffController.index)
   .get("/department/:deptId", staffController.deptStaffMembers)
   .get("/:id", staffController.show)
+  .patch("/:id/avatar", upload.single("avatar"), staffController.uploadImage)
   .patch("/:id", staffController.update);
 
 module.exports = router;

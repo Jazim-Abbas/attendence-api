@@ -50,10 +50,15 @@ async function updateStaff(id, staffFields) {
   return staffDb.updateStaff(id, updatedStaff);
 }
 
+async function uploadAvatar(id, avatar) {
+  return staffDb.uploadAvatar(id, { imagePath: avatar });
+}
+
 module.exports = {
   createStaff,
   listAllStaff,
   singleStaff,
   updateStaff,
   listStaffForDept,
+  uploadAvatar,
 };

@@ -158,6 +158,25 @@ async function updateStaff(
   }
 }
 
+async function uploadAvatar(id, { imagePath }) {
+  try {
+    return await queryRun(async (client) => {
+      const staff = await client.query(
+        `
+            UPDATE staff 
+                SET image = COALESCE($1, image)
+            WHERE id = $2
+        `,
+        [imagePath, id]
+      );
+
+      return staff.rows[0];
+    });
+  } catch (err) {
+    console.log("error: ", err);
+  }
+}
+
 async function deleteStaff(id) {
   return await queryRun(async (client) => {
     const deletedRecord = await client.query(
@@ -177,4 +196,5 @@ module.exports = {
   allStaffMembers,
   singleStaff,
   staffMembersForDept,
+  uploadAvatar,
 };

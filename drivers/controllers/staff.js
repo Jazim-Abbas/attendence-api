@@ -1,4 +1,5 @@
 const _staff = require("../../data-access/staff");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function index(_, res) {
   const staffMembers = await _staff.listAllStaff();
@@ -25,4 +26,13 @@ async function update(req, res) {
   res.send({ staff });
 }
 
-module.exports = { create, index, show, update, deptStaffMembers };
+async function uploadImage(req, res) {
+  if (!req.file) {
+    throw new Exceptions.BadRequest({ message: "Please upload image" });
+  }
+
+  await _staff.uploadAvatar(+req.params.id, req.file.filename);
+  res.send({ message: "Successfully upload image" });
+}
+
+module.exports = { create, index, show, update, deptStaffMembers, uploadImage };
