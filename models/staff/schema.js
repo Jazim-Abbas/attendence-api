@@ -7,7 +7,7 @@ const staffSchema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(8).required(),
   gender: yup.string().oneOf(Object.values(GENDER)).required(),
-  joingingDate: yup.date().required(),
+  joiningDate: yup.date().required(),
   dob: yup.date().notRequired(),
   phone: yup.number().notRequired(),
   address: yup.string().notRequired(),
