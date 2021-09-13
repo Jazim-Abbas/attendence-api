@@ -35,4 +35,17 @@ async function uploadImage(req, res) {
   res.send({ message: "Successfully upload image" });
 }
 
-module.exports = { create, index, show, update, deptStaffMembers, uploadImage };
+async function drop(req, res) {
+  await _staff.deleteStaff(+req.params.id);
+  res.send({ message: "Staff is deleted successfully" });
+}
+
+module.exports = {
+  create,
+  index,
+  show,
+  update,
+  deptStaffMembers,
+  uploadImage,
+  drop,
+};

@@ -9,6 +9,7 @@ router
   .get("/department/:deptId", staffController.deptStaffMembers)
   .get("/:id", staffController.show)
   .patch("/:id/avatar", upload.single("avatar"), staffController.uploadImage)
-  .patch("/:id", staffController.update);
+  .patch("/:id", staffController.update)
+  .delete("/:id", staffController.drop);
 
 module.exports = router;

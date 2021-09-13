@@ -1,5 +1,6 @@
 const staffModel = require("../../models/staff");
 const staffDb = require("../../db/staff");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function listAllStaff() {
   return staffDb.allStaffMembers();
@@ -54,6 +55,13 @@ async function uploadAvatar(id, avatar) {
   return staffDb.uploadAvatar(id, { imagePath: avatar });
 }
 
+async function deleteStaff(id) {
+  const deletedCount = await staffDb.deleteStaff(id);
+  if (deletedCount === 0) {
+    throw new Exceptions.BadRequest({ message: "Staff is not found" });
+  }
+}
+
 module.exports = {
   createStaff,
   listAllStaff,
@@ -61,4 +69,5 @@ module.exports = {
   updateStaff,
   listStaffForDept,
   uploadAvatar,
+  deleteStaff
 };
