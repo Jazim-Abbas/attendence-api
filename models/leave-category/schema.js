@@ -4,4 +4,8 @@ const createCategory = yup.object().shape({
   name: yup.string().required(),
 });
 
-module.exports = { createCategory };
+const updateCategory = yup.object().shape({
+  name: yup.string().notRequired(),
+});
+
+module.exports = { createCategory,updateCategory };

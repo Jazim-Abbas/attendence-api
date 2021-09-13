@@ -10,4 +10,12 @@ async function create(req, res) {
   res.send({ leaveCategory });
 }
 
-module.exports = { create, index };
+async function update(req, res) {
+  const leaveCategory = await _category.updateCategory(
+    +req.params.id,
+    req.body
+  );
+  res.send({ leaveCategory });
+}
+
+module.exports = { create, index, update };

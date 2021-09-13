@@ -14,4 +14,13 @@ async function createCategory(categFields) {
   return categoryDb.createCategory(newCategory);
 }
 
-module.exports = { createCategory, listAllCategories };
+async function updateCategory(id, categFields) {
+  const category = await categoryModel.updateCategory({ ...categFields });
+  const updatedCateg = {
+    name: category.getName(),
+  };
+
+  return categoryDb.updateCategory(id, updatedCateg);
+}
+
+module.exports = { createCategory, listAllCategories, updateCategory };
