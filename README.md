@@ -13,6 +13,27 @@
 
 ---
 
+--
+
+## Auth
+
+### Routes Info
+
+- /auth/login: post
+
+### Req Body Info
+
+- **/auth/login** (post):
+
+```js
+{
+  email*: string;
+  password*: number;
+}
+```
+
+---
+
 ## Job Title
 
 ### Routes Info
