@@ -66,24 +66,26 @@ async function updateAttendence({ timeOut, staff }) {
     return await queryRun(async (client) => {
       const attendenceInDb = await client.query(
         `
-          SELECT count(*) FROM attendence
+          SELECT * FROM attendence
           WHERE date_created = current_date
             AND staff = $1
         `,
         [staff]
       );
 
-      if (attendenceInDb.rows[0].count > 0) {
+      console.log("record: ", attendenceInDb.rows);
+
+      if (attendenceInDb.rows.length > 0 && attendenceInDb.rows[0].time_out) {
         throw new Exceptions.BadRequest({ message: "Already marked" });
       }
 
       const attendence = await client.query(
         `
-            UPDATE attendence 
+            UPDATE attendence
                 SET time_out = $1, status = 'PRESENT'
-            WHERE 
+            WHERE
                 date_created = current_date
-                AND 
+                AND
                 staff = $2
             RETURNING *
         `,
