@@ -2,6 +2,7 @@ const authModel = require("../../models/auth");
 const authDb = require("../../db/auth");
 const isValidHashedPassword = require("./compare-hash.util");
 const Exceptions = require("../../utils/custom-exceptions");
+const generateToken = require("./generate-token");
 
 async function authLogin(loginFields) {
   const login = await authModel.makeLogin({ ...loginFields });
@@ -20,7 +21,10 @@ async function authLogin(loginFields) {
     throw new Exceptions.BadRequest({ message: "Credentials not matched" });
   }
 
-  return staffInDb;
+  const { id, email, image } = staffInDb;
+  const token = await generateToken({ id, email, image });
+
+  return { ...staffInDb, token };
 }
 
 module.exports = { authLogin };
