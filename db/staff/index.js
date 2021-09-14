@@ -27,6 +27,39 @@ async function singleStaff(id) {
   });
 }
 
+async function viewLeaveStatus(staffId) {
+  return await queryRun(async (client) => {
+    const leaveStatus = await client.query(
+      `
+        SELECT 
+          s.first_name, 
+          s.last_name, 
+          s.id AS staff_id,
+          COALESCE(jt.allowed_leaves, 0) as allowed_leaves,
+          (
+            SELECT COUNT(*) 
+            FROM attendence att
+            WHERE 
+              att.staff = $1
+              AND
+              (
+                EXTRACT(YEAR FROM date_created) = EXTRACT(YEAR FROM NOW())
+                AND
+                EXTRACT(MONTH FROM date_created) = EXTRACT(MONTH FROM NOW())
+              )
+              AND att.status = 'LEAVE'
+          ) AS leaves
+        FROM staff s
+        LEFT JOIN job_title jt
+          ON s.job_title = jt.id
+        WHERE s.id = $1
+      `,
+      [staffId]
+    );
+    return leaveStatus.rows[0];
+  });
+}
+
 async function allStaffForTodayAttendence(deptId) {
   return await queryRun(async (client) => {
     const staffMembers = await client.query(
@@ -199,4 +232,5 @@ module.exports = {
   singleStaff,
   staffMembersForDept,
   uploadAvatar,
+  viewLeaveStatus,
 };

@@ -21,6 +21,11 @@ async function show(req, res) {
   res.send({ staff });
 }
 
+async function viewLeaveStatus(req, res) {
+  const leaveStatus = await _staff.viewLeaveStatus(+req.params.id);
+  res.send({ leaveStatus });
+}
+
 async function create(req, res) {
   const staff = await _staff.createStaff(req.body);
   res.send({ staff });
@@ -54,4 +59,5 @@ module.exports = {
   uploadImage,
   drop,
   staffMembersForAttendence,
+  viewLeaveStatus,
 };

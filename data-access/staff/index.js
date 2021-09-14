@@ -18,6 +18,10 @@ async function singleStaff(id) {
   return staffDb.singleStaff(id);
 }
 
+async function viewLeaveStatus(staffId) {
+  return staffDb.viewLeaveStatus(staffId);
+}
+
 async function createStaff(staffFields) {
   const staff = await staffModel.createStaff({ ...staffFields });
   const newStaff = {
@@ -75,4 +79,5 @@ module.exports = {
   uploadAvatar,
   deleteStaff,
   listStaffForAttendence,
+  viewLeaveStatus,
 };
