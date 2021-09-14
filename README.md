@@ -140,6 +140,7 @@
 - /staff/attendence/:deptId: get
 - /staff/department/:deptId: get
 - /staff/:id: get
+- /staff/view-leave-status/:id: get
 - /staff: post
 - /staff/:id: patch
 - /staff/:id/avatar: patch
