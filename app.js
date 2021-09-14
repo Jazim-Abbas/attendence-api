@@ -7,6 +7,7 @@ const catchUnhandleExceptions = require("./drivers/middlewares/exception-handlin
 const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/", allRoutes);
 app.use(catchUnhandleExceptions);
 
