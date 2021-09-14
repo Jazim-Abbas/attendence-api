@@ -126,7 +126,7 @@
 
 ### Req Body Info
 
-- **/leave-category** (post):
+- **/staff** (post):
 
 ```js
 {
@@ -144,7 +144,7 @@
 }
 ```
 
-- **/leave-category/:id** (patch):
+- **/staff/:id** (patch):
 
 ```js
 {
@@ -159,6 +159,43 @@
   address: string,
   department: number,
   jobTitle: number,
+}
+```
+
+- **/staff/:id/avatar** (patch):
+
+```js
+{
+  avatar: File;
+}
+```
+
+---
+
+## Attendence
+
+### Routes Info
+
+- /attendence: post
+- /attendence/leave: post
+- /attendence/absent: post
+- /attendence: patch
+
+### Req Body Info
+
+- **/attendence** (post):
+
+```js
+{
+  staff*: number,
+}
+```
+
+- **/attendence** (patch):
+
+```js
+{
+  staff*: number,
 }
 ```
 
