@@ -13,7 +13,7 @@ router.use("/job-title", isAuth, jobTitleRoutes);
 router.use("/department", isAuth, deptRoutes);
 router.use("/leave-category", isAuth, leaveCategRoutes);
 router.use("/apply-leave", isAuth, applyLeaveRoutes);
-router.use("/staff", isAuth, staffRoutes);
+router.use("/staff", staffRoutes);
 router.use("/attendence", isAuth, attendenceRoutes);
 router.use("/auth", authRoutes);
 
