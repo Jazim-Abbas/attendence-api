@@ -13,6 +13,20 @@ async function createAttendence(attendenceFields) {
   return attendenceDb.createAttendence(newAttendence);
 }
 
+async function markedAbsent(staffId) {
+  return attendenceDb.markedLeaveOrAbsent({
+    staff: staffId,
+    leaveStatus: "ABSENT",
+  });
+}
+
+async function markedLeave(staffId) {
+  return attendenceDb.markedLeaveOrAbsent({
+    staff: staffId,
+    leaveStatus: "LEAVE",
+  });
+}
+
 async function updateAttendence(attendenceFields) {
   const attendence = await attendenceModel.updateAttendence({
     ...attendenceFields,
@@ -25,4 +39,9 @@ async function updateAttendence(attendenceFields) {
   return attendenceDb.updateAttendence(updatedAttendence);
 }
 
-module.exports = { createAttendence, updateAttendence };
+module.exports = {
+  createAttendence,
+  updateAttendence,
+  markedAbsent,
+  markedLeave,
+};

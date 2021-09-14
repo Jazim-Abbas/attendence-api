@@ -31,6 +31,36 @@ async function createAttendence({ timeIn, staff }) {
   }
 }
 
+async function markedLeaveOrAbsent({ staff, leaveStatus }) {
+  try {
+    return await queryRun(async (client) => {
+      const todayAttendence = await client.query(
+        `
+          SELECT count(*) FROM attendence
+          WHERE date_created = current_date AND staff = $1
+      `,
+        [staff]
+      );
+
+      if (todayAttendence.rows[0].count > 0) {
+        throw new Exceptions.BadRequest({ message: "Already marked" });
+      }
+
+      const attendence = await client.query(
+        `
+            INSERT INTO attendence (staff, status, date_created) VALUES ($1, $2, $3) RETURNING *
+        `,
+        [staff, leaveStatus, new Date()]
+      );
+
+      return attendence.rows[0];
+    });
+  } catch (err) {
+    console.log("error: ", err);
+    throw err;
+  }
+}
+
 async function updateAttendence({ timeOut, staff }) {
   try {
     return await queryRun(async (client) => {
@@ -68,4 +98,4 @@ async function updateAttendence({ timeOut, staff }) {
   }
 }
 
-module.exports = { createAttendence, updateAttendence };
+module.exports = { createAttendence, updateAttendence, markedLeaveOrAbsent };

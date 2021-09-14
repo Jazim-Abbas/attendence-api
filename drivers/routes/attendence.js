@@ -4,6 +4,8 @@ const attendenceController = require("../controllers/attendence");
 const router = express.Router();
 router
   .post("/", attendenceController.create)
+  .post("/absent", attendenceController.markedAbsent)
+  .post("/leave", attendenceController.markedLeave)
   .patch("/", attendenceController.update);
 
 module.exports = router;
