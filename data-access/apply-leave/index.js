@@ -1,8 +1,11 @@
 const applyLeaveModel = require("../../models/apply-leave");
 const applyLeaveDb = require("../../db/apply-leave");
 
-async function createApplyLeave(leaveFields) {
-  const applyLeave = await applyLeaveModel.createApplyLeave({ ...leaveFields });
+async function createApplyLeave(user, leaveFields) {
+  const applyLeave = await applyLeaveModel.createApplyLeave({
+    ...leaveFields,
+    staff: user.id,
+  });
   const newApplyLeave = {
     subject: applyLeave.getSubject(),
     description: applyLeave.getDescription(),
