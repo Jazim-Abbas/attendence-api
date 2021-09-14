@@ -11,6 +11,11 @@ async function deptStaffMembers(req, res) {
   res.send({ staffMembers });
 }
 
+async function staffMembersForAttendence(_, res) {
+  const staffMembers = await _staff.listStaffForAttendence();
+  res.send({ staffMembers });
+}
+
 async function show(req, res) {
   const staff = await _staff.singleStaff(+req.params.id);
   res.send({ staff });
@@ -48,4 +53,5 @@ module.exports = {
   deptStaffMembers,
   uploadImage,
   drop,
+  staffMembersForAttendence,
 };

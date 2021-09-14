@@ -10,6 +10,10 @@ async function listStaffForDept(deptId) {
   return staffDb.staffMembersForDept(deptId);
 }
 
+async function listStaffForAttendence() {
+  return staffDb.allStaffForTodayAttendence();
+}
+
 async function singleStaff(id) {
   return staffDb.singleStaff(id);
 }
@@ -69,5 +73,6 @@ module.exports = {
   updateStaff,
   listStaffForDept,
   uploadAvatar,
-  deleteStaff
+  deleteStaff,
+  listStaffForAttendence,
 };
