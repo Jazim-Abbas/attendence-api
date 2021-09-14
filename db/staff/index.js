@@ -27,7 +27,7 @@ async function singleStaff(id) {
   });
 }
 
-async function allStaffForTodayAttendence() {
+async function allStaffForTodayAttendence(deptId) {
   return await queryRun(async (client) => {
     const staffMembers = await client.query(
       `
@@ -52,7 +52,9 @@ async function allStaffForTodayAttendence() {
           SELECT staff FROM attendence
           WHERE date_created = CURRENT_DATE
         )
-      `
+        AND s.department = $1
+      `,
+      [deptId]
     );
     return staffMembers.rows;
   });

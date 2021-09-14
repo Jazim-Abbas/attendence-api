@@ -11,8 +11,8 @@ async function deptStaffMembers(req, res) {
   res.send({ staffMembers });
 }
 
-async function staffMembersForAttendence(_, res) {
-  const staffMembers = await _staff.listStaffForAttendence();
+async function staffMembersForAttendence(req, res) {
+  const staffMembers = await _staff.listStaffForAttendence(+req.params.deptId);
   res.send({ staffMembers });
 }
 

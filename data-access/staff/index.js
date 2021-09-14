@@ -10,8 +10,8 @@ async function listStaffForDept(deptId) {
   return staffDb.staffMembersForDept(deptId);
 }
 
-async function listStaffForAttendence() {
-  return staffDb.allStaffForTodayAttendence();
+async function listStaffForAttendence(deptId) {
+  return staffDb.allStaffForTodayAttendence(deptId);
 }
 
 async function singleStaff(id) {
