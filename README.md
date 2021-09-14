@@ -110,3 +110,56 @@
 ```
 
 ---
+
+## Staff
+
+### Routes Info
+
+- /staff: get
+- /staff/attendence/:deptId: get
+- /staff/department/:deptId: get
+- /staff/:id: get
+- /staff: post
+- /staff/:id: patch
+- /staff/:id/avatar: patch
+- /staff/:id: delete
+
+### Req Body Info
+
+- **/leave-category** (post):
+
+```js
+{
+  firstName*: string,
+  lastName*: string,
+  email*: string,
+  password*: string,
+  gender*: string, // MALE | FEMALE
+  joiningDate*: date,
+  dob: date,
+  phone: number,
+  address: string,
+  department: number,
+  jobTitle: number,
+}
+```
+
+- **/leave-category/:id** (patch):
+
+```js
+{
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  gender: string, // MALE | FEMALE
+  joiningDate: date,
+  dob: date,
+  phone: number,
+  address: string,
+  department: number,
+  jobTitle: number,
+}
+```
+
+---
