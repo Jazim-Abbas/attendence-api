@@ -21,8 +21,8 @@ async function authLogin(loginFields) {
     throw new Exceptions.BadRequest({ message: "Credentials not matched" });
   }
 
-  const { id, email, image } = staffInDb;
-  const token = await generateToken({ id, email, image });
+  const { id, email, image, is_admin } = staffInDb;
+  const token = await generateToken({ id, email, image, isAdmin: is_admin });
 
   return { ...staffInDb, token };
 }

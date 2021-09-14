@@ -4,7 +4,7 @@ async function findByEmail({ email }) {
   return queryRun(async (client) => {
     const staff = await client.query(
       `
-            SELECT id, email, password FROM staff 
+            SELECT id, email, password, is_admin FROM staff 
             WHERE email = $1
             LIMIT 1
         `,
