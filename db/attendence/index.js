@@ -1,4 +1,5 @@
 const queryRun = require("../run-query.util");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function createAttendence({ timeIn, staff }) {
   try {
@@ -33,6 +34,19 @@ async function createAttendence({ timeIn, staff }) {
 async function updateAttendence({ timeOut, staff }) {
   try {
     return await queryRun(async (client) => {
+      const attendenceInDb = await client.query(
+        `
+          SELECT count(*) FROM attendence
+          WHERE date_created = current_date
+            AND staff = $1
+        `,
+        [staff]
+      );
+
+      if (attendenceInDb.rows[0].count > 0) {
+        throw new Exceptions.BadRequest({ message: "Already marked" });
+      }
+
       const attendence = await client.query(
         `
             UPDATE attendence 
@@ -50,6 +64,7 @@ async function updateAttendence({ timeOut, staff }) {
     });
   } catch (err) {
     console.log("error: ", err);
+    throw err;
   }
 }
 
