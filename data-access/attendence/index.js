@@ -1,6 +1,10 @@
 const attendenceModel = require("../../models/attendence");
 const attendenceDb = require("../../db/attendence");
 
+async function dailyAttendenceStatsForStaff(staffId) {
+  return attendenceDb.dailyAttendenceStatsForStaff(staffId);
+}
+
 async function createAttendence(attendenceFields) {
   const attendence = await attendenceModel.createAttendence({
     ...attendenceFields,
@@ -44,4 +48,5 @@ module.exports = {
   updateAttendence,
   markedAbsent,
   markedLeave,
+  dailyAttendenceStatsForStaff,
 };

@@ -198,6 +198,7 @@
 
 ### Routes Info
 
+- /attendence/stats/:staffId: get
 - /attendence: post
 - /attendence/leave: post
 - /attendence/absent: post

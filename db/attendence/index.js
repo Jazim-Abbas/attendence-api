@@ -1,6 +1,28 @@
 const queryRun = require("../run-query.util");
 const Exceptions = require("../../utils/custom-exceptions");
 
+async function dailyAttendenceStatsForStaff(staffId) {
+  return queryRun(async (client) => {
+    const jobTitles = await client.query(
+      `
+        SELECT 
+          time_in::TIME - '9:30 AM'::TIME AS checkin_late_time,
+          '5:30 PM'::TIME - time_out::TIME AS eary_exit_time,
+          time_out::TIME - '6:00 PM'::TIME AS over_time,
+          time_in,
+          time_out,
+          date_created
+        FROM attendence
+        WHERE 
+          staff = $1 AND
+          date_created = CURRENT_DATE
+      `,
+      [staffId]
+    );
+    return jobTitles.rows;
+  });
+}
+
 async function createAttendence({ timeIn, staff }) {
   try {
     return await queryRun(async (client) => {
@@ -100,4 +122,9 @@ async function updateAttendence({ timeOut, staff }) {
   }
 }
 
-module.exports = { createAttendence, updateAttendence, markedLeaveOrAbsent };
+module.exports = {
+  createAttendence,
+  updateAttendence,
+  markedLeaveOrAbsent,
+  dailyAttendenceStatsForStaff,
+};
