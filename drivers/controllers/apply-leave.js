@@ -1,7 +1,7 @@
 const _applyLeave = require("../../data-access/apply-leave");
 
 async function create(req, res) {
-  const applyLeave = await _applyLeave.createApplyLeave(req.body);
+  const applyLeave = await _applyLeave.createApplyLeave(req.user, req.body);
   res.send({ applyLeave });
 }
 
