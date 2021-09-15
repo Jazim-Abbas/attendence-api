@@ -5,6 +5,10 @@ async function listAllApplyLeaves() {
   return applyLeaveDb.allApplyLeaves();
 }
 
+async function listAllApplyLeavesForStaff(staffId) {
+  return applyLeaveDb.allApplyLeavesForStaff(staffId);
+}
+
 async function createApplyLeave(user, leaveFields) {
   const applyLeave = await applyLeaveModel.createApplyLeave({
     ...leaveFields,
@@ -34,4 +38,9 @@ async function updateLeaveStatus(id, leaveFields) {
   return applyLeaveDb.updateLeaveStatus(id, updatedLeave);
 }
 
-module.exports = { createApplyLeave, updateLeaveStatus, listAllApplyLeaves };
+module.exports = {
+  createApplyLeave,
+  updateLeaveStatus,
+  listAllApplyLeaves,
+  listAllApplyLeavesForStaff,
+};

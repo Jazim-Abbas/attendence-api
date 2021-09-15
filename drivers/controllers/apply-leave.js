@@ -5,6 +5,13 @@ async function index(_, res) {
   res.send({ applyLeaves });
 }
 
+async function allForStaff(req, res) {
+  const applyLeaves = await _applyLeave.listAllApplyLeavesForStaff(
+    +req.params.staffId
+  );
+  res.send({ applyLeaves });
+}
+
 async function create(req, res) {
   const applyLeave = await _applyLeave.createApplyLeave(req.user, req.body);
   res.send({ applyLeave });
@@ -18,4 +25,4 @@ async function updateLeaveStatus(req, res) {
   res.send({ applyLeave });
 }
 
-module.exports = { create, updateLeaveStatus, index };
+module.exports = { create, updateLeaveStatus, index, allForStaff };

@@ -24,6 +24,22 @@ async function allApplyLeaves() {
   });
 }
 
+async function allApplyLeavesForStaff(staffId) {
+  return queryRun(async (client) => {
+    const applyLeaves = await client.query(
+      `
+        SELECT al.*, lc.name AS category
+        FROM apply_leave al
+        JOIN leave_category lc
+          ON lc.id = al.leave_category
+        WHERE staff = $1
+      `,
+      [staffId]
+    );
+    return applyLeaves.rows;
+  });
+}
+
 async function createApplyLeave({
   subject,
   description,
@@ -72,4 +88,9 @@ async function updateLeaveStatus(id, { leaveStatus }) {
   }
 }
 
-module.exports = { createApplyLeave, updateLeaveStatus, allApplyLeaves };
+module.exports = {
+  createApplyLeave,
+  updateLeaveStatus,
+  allApplyLeaves,
+  allApplyLeavesForStaff,
+};

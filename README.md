@@ -228,6 +228,7 @@
 ### Routes Info
 
 - /apply-leave: get
+- /apply-leave/:staffId/all: get
 - /apply-leave: post
 - /apply-leave/:id/status: patch
 
