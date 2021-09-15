@@ -222,3 +222,35 @@
 ```
 
 ---
+
+## Apply Leave
+
+### Routes Info
+
+- /apply-leave: get
+- /apply-leave: post
+- /apply-leave/:id/status: patch
+
+### Req Body Info
+
+- **/apply-leave** (post):
+
+```js
+{
+  subject*: string,
+  description*: string,
+  fromDate*: Date,
+  toDate*: Date,
+  leaveCategory*: number,
+}
+```
+
+- **/apply-leave/:id/status** (patch):
+
+```js
+{
+  leaveStatus*: string, // PENDING | ACCEPTED | REJECTED
+}
+```
+
+---

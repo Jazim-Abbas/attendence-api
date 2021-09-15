@@ -1,5 +1,29 @@
 const queryRun = require("../run-query.util");
 
+async function allApplyLeaves() {
+  return queryRun(async (client) => {
+    const applyLeaves = await client.query(
+      `
+        SELECT 
+          al.id,
+          al.subject,
+          al.description,
+          al.from,
+          al.to,
+          al.leave_status,
+          concat(s.first_name, ' ', s.last_name) AS staff_name,
+          lc.name AS category
+        FROM apply_leave al
+        JOIN staff s
+          ON s.id = al.staff
+        JOIN leave_category lc
+          ON lc.id = al.leave_category
+      `
+    );
+    return applyLeaves.rows;
+  });
+}
+
 async function createApplyLeave({
   subject,
   description,
@@ -48,4 +72,4 @@ async function updateLeaveStatus(id, { leaveStatus }) {
   }
 }
 
-module.exports = { createApplyLeave, updateLeaveStatus };
+module.exports = { createApplyLeave, updateLeaveStatus, allApplyLeaves };

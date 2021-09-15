@@ -1,6 +1,10 @@
 const applyLeaveModel = require("../../models/apply-leave");
 const applyLeaveDb = require("../../db/apply-leave");
 
+async function listAllApplyLeaves() {
+  return applyLeaveDb.allApplyLeaves();
+}
+
 async function createApplyLeave(user, leaveFields) {
   const applyLeave = await applyLeaveModel.createApplyLeave({
     ...leaveFields,
@@ -30,4 +34,4 @@ async function updateLeaveStatus(id, leaveFields) {
   return applyLeaveDb.updateLeaveStatus(id, updatedLeave);
 }
 
-module.exports = { createApplyLeave, updateLeaveStatus };
+module.exports = { createApplyLeave, updateLeaveStatus, listAllApplyLeaves };
