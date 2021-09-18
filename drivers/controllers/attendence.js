@@ -13,12 +13,12 @@ async function create(req, res) {
 }
 
 async function markedAbsent(req, res) {
-  const attendence = await _attendence.markedAbsent(req.user.id);
+  const attendence = await _attendence.markedAbsent(req.body.staffId);
   res.send({ attendence });
 }
 
 async function markedLeave(req, res) {
-  const attendence = await _attendence.markedAbsent(req.user.id);
+  const attendence = await _attendence.markedAbsent(req.body.staffId);
   res.send({ attendence });
 }
 
