@@ -38,7 +38,9 @@ async function createAttendence({ timeIn, staff }) {
       );
 
       if (todayAttendence.rows[0].count > 0) {
-        throw new Error("Attendence is already marked");
+        throw new Exceptions.BadRequest({
+          message: "Attendence is already marked",
+        });
       }
 
       const attendence = await client.query(
@@ -50,6 +52,7 @@ async function createAttendence({ timeIn, staff }) {
     });
   } catch (err) {
     console.log("error: ", err);
+    throw err;
   }
 }
 
