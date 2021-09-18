@@ -63,7 +63,7 @@ async function viewLeaveStatus(staffId) {
 
 async function allStaffForTodayAttendence(deptId) {
   return await queryRun(async (client) => {
-    const staffMembers = await client.query(
+    const leaveMembers = await client.query(
       `
       SELECT 
         s.id AS staff_id,
@@ -72,31 +72,78 @@ async function allStaffForTodayAttendence(deptId) {
           s.first_name,
           ' ',
           s.last_name,
-          CASE
-            WHEN al.leave_status = 'ACCEPTED' THEN ' (L)'
-            ELSE ''
-          END
+          ' (L)'
         ) AS staff_name
       FROM staff s
-      LEFT JOIN apply_leave al
+      JOIN apply_leave al
         ON s.id = al.staff 
-        AND (CURRENT_DATE >= al.from AND CURRENT_DATE <= al.to)
-      JOIN attendence att
-        ON s.id = att.staff
       WHERE 
-        s.department = $1 
+        (CURRENT_DATE BETWEEN al.from AND al.to)
         AND
-        s.id NOT IN (
-          SELECT staff FROM attendence
-          WHERE 
-            date_created = CURRENT_DATE 
-            AND 
-            status IS NOT NULL
-          )
+        al.leave_status = 'ACCEPTED'
+        AND s.department = $1
       `,
       [deptId]
     );
-    return staffMembers.rows;
+    const allStaffMembers = await client.query(
+      `
+        SELECT 
+          s.id AS staff_id,
+          CONCAT(s.first_name, ' ', s.last_name) AS staff_name
+        FROM staff s
+        WHERE department = $1
+      `,
+      [deptId]
+    );
+    const markedStatusMembers = await client.query(
+      `
+        SELECT 
+          s.id AS staff_id,
+          CONCAT(s.first_name, ' ', s.last_name) AS staff_name
+        FROM attendence a
+        JOIN staff s
+          ON a.staff = s.id 
+        WHERE 
+          a.date_created = CURRENT_DATE
+          AND
+          status IS NOT NULL
+          AND 
+          s.department = $1
+      `,
+      [deptId]
+    );
+
+    let staffMembers = {};
+    let actualMembers = [];
+    let obj = {};
+    allStaffMembers.rows.forEach((member) => {
+      staffMembers[member.staff_id] = member;
+    });
+    leaveMembers.rows.forEach((member) => {
+      staffMembers[member.staff_id] = member;
+    });
+    markedStatusMembers.rows.forEach((member) => {
+      obj[member.staff_id] = member;
+    });
+    Object.keys(obj).forEach((key) => {
+      console.log("key: ", key);
+      if (!staffMembers[key]) {
+        actualMembers.push(obj[key]);
+      }
+
+      if (staffMembers[key]) {
+        delete staffMembers[key];
+      }
+    });
+
+    Object.keys(staffMembers).forEach((key) => {
+      actualMembers.push(staffMembers[key]);
+    });
+
+    return actualMembers;
+    return { staffMembers, obj, actualMembers };
+
+    // return staffMembers.rows;
   });
 }
 
