@@ -1,4 +1,5 @@
 const queryRun = require("../run-query.util");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function allStaffMembers() {
   return await queryRun(async (client) => {
@@ -133,7 +134,7 @@ async function createStaff({
       return staff.rows[0];
     });
   } catch (err) {
-    console.log("email arleady exists: ", err);
+    throw new Exceptions.BadRequest({ message: "Email already exists" });
   }
 }
 
