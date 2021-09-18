@@ -12,6 +12,7 @@ async function allApplyLeaves() {
           al.to,
           al.leave_status,
           concat(s.first_name, ' ', s.last_name) AS staff_name,
+          s.id as staff_id,
           lc.name AS category
         FROM apply_leave al
         JOIN staff s
