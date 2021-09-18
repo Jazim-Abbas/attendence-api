@@ -1,4 +1,5 @@
 const queryRun = require("../run-query.util");
+const Exceptions = require("../../utils/custom-exceptions");
 
 async function allDepartments() {
   return queryRun(async (client) => {
@@ -33,7 +34,7 @@ async function createDepartment({ name, phone, email, address }) {
       return newDepartment.rows[0];
     });
   } catch (err) {
-    throw err;
+    throw new Exceptions.BadRequest({ message: "Email already exists" });
   }
 }
 
@@ -57,7 +58,8 @@ async function updateDepartment(id, { name, phone, email, address }) {
       return department.rows[0];
     });
   } catch (err) {
-    throw err;
+    console.log("error: ", err);
+    throw new Exceptions.BadRequest({ message: "Email already exists" });
   }
 }
 
