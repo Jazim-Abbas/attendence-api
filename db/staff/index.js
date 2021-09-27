@@ -1,9 +1,25 @@
 const queryRun = require("../run-query.util");
 const Exceptions = require("../../utils/custom-exceptions");
 
-async function allStaffMembers() {
+async function allStaffMembers(excludedStaffId) {
   return await queryRun(async (client) => {
-    const staffMembers = await client.query("SELECT * FROM staff");
+    const staffMembers = await client.query(
+      `
+        SELECT 
+          s.id,
+          CONCAT(s.first_name, ' ', s.last_name),
+          s.email,
+          d.name AS department,
+          jt.name AS job_title
+        FROM staff s
+        LEFT JOIN department d
+          ON s.department = d.id
+        LEFT JOIN job_title jt
+          ON s.job_title = jt.id
+        WHERE s.id <> $1
+      `,
+      [excludedStaffId]
+    );
     return staffMembers.rows;
   });
 }

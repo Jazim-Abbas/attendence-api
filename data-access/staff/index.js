@@ -2,8 +2,8 @@ const staffModel = require("../../models/staff");
 const staffDb = require("../../db/staff");
 const Exceptions = require("../../utils/custom-exceptions");
 
-async function listAllStaff() {
-  return staffDb.allStaffMembers();
+async function listAllStaff(staffId) {
+  return staffDb.allStaffMembers(staffId);
 }
 
 async function listStaffForDept(deptId) {

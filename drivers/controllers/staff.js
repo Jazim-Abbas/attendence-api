@@ -1,8 +1,8 @@
 const _staff = require("../../data-access/staff");
 const Exceptions = require("../../utils/custom-exceptions");
 
-async function index(_, res) {
-  const staffMembers = await _staff.listAllStaff();
+async function index(req, res) {
+  const staffMembers = await _staff.listAllStaff(req.user.id);
   res.send({ staffMembers });
 }
 
